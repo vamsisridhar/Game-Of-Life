@@ -1,0 +1,11 @@
+Layers:
+    1 - grid 1
+    2 - grid 2
+    3 - UI
+
+1, 2 -> grid class - surface 1
+3 -> separate layers - surface 2
+
+grid -> states integer values rather than objs
+enum list -> map integer to class
+
