@@ -17,8 +17,9 @@ fps = 60
 
 m_grid.draw_object("glider", 10, 10)
 m_grid.draw_object("pulsar",35, 35)
-
-
+m_grid.draw_object("pentadecathlon",80, 70)
+m_grid.draw_object("pulsar",60, 60)
+m_grid.draw_object("pulsar",120, 23)
 while True:
     time.sleep(1/fps)
     for event in pygame.event.get():
