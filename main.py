@@ -15,7 +15,8 @@ mouse_b = 0
 anim =False
 fps = 60
 
-m_grid.draw_object("block",35, 35)
+m_grid.draw_object("glider", 10, 10)
+m_grid.draw_object("pulsar",35, 35)
 
 
 while True:
@@ -41,7 +42,7 @@ while True:
         m_grid.set_pixel(g_pos[0], g_pos[1], mouse_b - 1)
 
     if anim:
-        fps = 2
+        fps = 200
         m_grid.update()
 
     m_grid.draw_grid()
