@@ -1,37 +1,15 @@
 import pygame, sys
 import numpy as np
 class Grid:
-
-    shapes = {
-        "block" : [(0,0), (0,1), (1,0), (1,1)],
-        "beehive": [(0,1), (1,0), (2,0), (3,1), (1,2), (2,2)],
-        "loaf": [(0,1),(1,0),(1,2),(2,0),(2,3),(3,1),(3,2)],
-        "boat": [(0,0),(0,1),(1,0),(1,2),(2,1)],
-        "blinker": [(0,0),(0,1),(0,2)],
-        "toad": [(1,0),(2,0),(3,0),(0,1),(1,1),(2,1)],
-        "beacon": [(0,0),(0,1),(1,0),(1,1),(2,2),(2,3),(3,2),(3,3)],
-        "pulsar": [(0,2),(0,3),(0,4),(0,8),(0,9),(0,10),
-                    (2,0),(2,5),(2,7),(2,12),
-                    (3,0),(3,5),(3,7),(3,12),
-                    (4,0),(4,5),(4,7),(4,12),
-                    (5,2),(5,3),(5,4),(5,8),(5,9),(5,10),
-                    (7,2),(7,3),(7,4),(7,8),(7,9),(7,10),
-                    (8,0),(8,5),(8,7),(8,12),
-                    (9,0),(9,5),(9,7),(9,12),
-                    (10,0),(10,5),(10,7),(10,12),
-                    (12,2),(12,3),(12,4),(12,8),(12,9),(12,10)],
-        "pentadecathlon": [(0,1),(1,1),(2,0),(2,2),(3,1),(4,1),(5,1),(6,1),(7,0),(7,2),(8,1),(9,1)],
-        "glider": [(0,1),(1,2),(2,0),(2,1),(2,2)]
-        
-    }
-
-    def __init__(self, size: tuple, surface: pygame.Surface, p_size: int):
+    shapes={}
+    
+    def __init__(self, size: tuple, p_size: int):
         self.resolution = tuple([i // p_size for i in size])
         self.p_grid = np.zeros(self.resolution) #Primary
         self.s_grid = np.zeros(self.resolution)#Secondary
-        self.surface = surface
+        self.surface = pygame.Surface(size)
         self.p_size = p_size
-
+        self.import_shapes()
 
     def draw_grid(self):
         for i in range(self.resolution[0]):
@@ -49,7 +27,23 @@ class Grid:
             if pt[0] + x < self.resolution[0] and pt[1] + y < self.resolution[1]:
                 self.set_pixel(pt[0] + x, pt[1] + y, 1)
                 
-                
+    def import_shapes(self):
+        f = open("shapes.txt", "r")
+        data = f.readlines()
+        names = data[0][:-1].split(',')
+        for shape in names:
+            i = names.index(shape)
+            shape_coords = []
+            shape_data = data[i+1][:-1].split(',')
+
+            for j in range(int(len(shape_data)/2)):
+                shape_coords.append((int(shape_data[2*j]), int(shape_data[2*j+1])))
+            print(shape)
+            self.shapes[shape] = shape_coords
+
+            print(self.shapes)
+
+        f.close()
 
     def update(self):
         for i in range(self.resolution[0]):
