@@ -43,8 +43,7 @@ mouse_b = 0
 anim =False
 fps = 60
 
-s_active = True
-g_active = False
+scene = 0
 
 def ON_START():
     m_grid.draw_object("glider", 10, 10)
@@ -68,34 +67,32 @@ while True:
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_b = 0
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and g_active:
+            if event.key == pygame.K_SPACE and scene == 1:
                 anim = not anim
-            if event.key == pygame.K_BACKSPACE and g_active:
+            if event.key == pygame.K_BACKSPACE and scene == 1:
                 anim = False
                 m_grid.p_grid.fill(0)
-                g_active = False
-                s_active = True
+                scene = 0
     if mouse_b != 0:
         m_pos = pygame.mouse.get_pos()
-        if g_active:
+        if scene == 1:
             g_pos = tuple([i // p_size for i in m_pos])
             print(g_pos)
             m_grid.set_pixel(g_pos[0], g_pos[1], mouse_b - 1)
-        if s_active:
+        elif scene == 0:
             clicked = start.check_bounds(m_pos)
             if clicked == "start":
                 ON_START()
-                s_active = False
-                g_active = True
+                scene = 1
     if anim:
         fps = 200
         m_grid.update()
 
     m_grid.draw_grid()
 
-    if g_active:
+    if scene == 1:
         screen.blit(m_grid.surface, (0,0))
-    elif s_active:
+    elif scene == 0:
         screen.blit(start.surface, (0,0))
     pygame.display.flip()
     
